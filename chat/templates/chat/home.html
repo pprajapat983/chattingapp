@@ -1,0 +1,74 @@
+{% extends 'chat/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container my-5 overflow-auto">
+    <h2>Volunteers Chat Room</h2>
+    <hr>
+    <div class="container my-3">
+        
+            {% for msg in message %}
+            <!--        <div class="row">-->
+
+            {% if user.is_authenticated and user == msg.name %}
+            <div class="col-md-6 ml-auto my-2 text-center">
+
+
+                <!--                    <img class="rounded-circle article-img"-->
+                <!--                        src="">-->
+                <div class="media-body">
+                    <div class="article-metadata">
+                      <img class="rounded-circle account-img" src="https://img.icons8.com/plasticine/2x/user.png">
+                       <a class="mr-2" href="#">{{ msg.name}}#</a>
+                        <small class="text-muted">{{ msg.date_posted}}</small>
+
+
+                    </div>
+
+                    <p class="article-content">{{msg.msg}}</p>
+
+                </div>
+
+            </div>
+            {% else %}
+            <div class="col-md-6 mr-auto my-2 text-center">
+                <div class="media-body">
+                    <div class="article-metadata">
+                         <img class="rounded-circle account-img" src="https://img.icons8.com/plasticine/2x/user.png">
+
+
+                        <a class="mr-2" href="#">{{ msg.name}}</a>
+                        <small class="text-muted">{{ msg.date_posted}}</small>
+
+
+                    </div>
+
+                    <p class="article-content">{{msg.msg}}</p>
+
+                </div>
+
+
+            </div>
+        
+        {% endif %}
+     
+        {% endfor %}
+    </div>
+    <div class="container">
+            <form method="post" action="/">
+                {% csrf_token %}
+            <div class="form-group">
+                <label for="msg">Write Your Message Here</label>
+                <textarea class="form-control" value="test" id="msg" name="msg" rows="3"></textarea>
+            </div>
+            <button class="sub" type="submit">Send</button>
+                </form>
+    </div>
+</div>
+<script>
+    {% if user.is_authenticated and user == msg.name %}
+    console.log('hello')
+    {% endif %}
+</script>
+{% endblock %}
